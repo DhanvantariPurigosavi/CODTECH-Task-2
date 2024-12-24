@@ -1,0 +1,86 @@
+class StudentGradeManager:
+    def __init__(self):
+        self.grades = {}
+
+    def add_grade(self, subject, grade):
+        """Adds a grade for a specific subject."""
+        if subject not in self.grades:
+            self.grades[subject] = []
+        self.grades[subject].append(grade)
+        print(f"Grade {grade} added for {subject}.")
+
+    def calculate_average(self):
+        """Calculates the average grade across all subjects."""
+        total_sum = sum(sum(grades) for grades in self.grades.values())
+        total_count = sum(len(grades) for grades in self.grades.values())
+        if total_count == 0:
+            return 0
+        return total_sum / total_count
+
+    def determine_letter_grade(self, average):
+        """Determines the letter grade based on the average."""
+        if average >= 90:
+            return 'A'
+        elif average >= 80:
+            return 'B'
+        elif average >= 70:
+            return 'C'
+        elif average >= 60:
+            return 'D'
+        else:
+            return 'F'
+
+    def calculate_gpa(self, average):
+        """Calculates the GPA based on the average."""
+        if average >= 90:
+            return 4.0
+        elif average >= 80:
+            return 3.0
+        elif average >= 70:
+            return 2.0
+        elif average >= 60:
+            return 1.0
+        else:
+            return 0.0
+
+    def display_summary(self):
+        """Displays the overall grade summary."""
+        average = self.calculate_average()
+        letter_grade = self.determine_letter_grade(average)
+        gpa = self.calculate_gpa(average)
+        print("\nGrade Summary:")
+        print(f"Average Grade: {average:.2f}")
+        print(f"Letter Grade: {letter_grade}")
+        print(f"GPA: {gpa:.2f}")
+
+# Main Program
+if __name__ == "__main__":
+    manager = StudentGradeManager()
+
+    while True:
+        print("\nOptions:")
+        print("1. Add Grade")
+        print("2. Display Summary")
+        print("3. Exit")
+        choice = input("Enter your choice: ")
+
+        if choice == '1':
+            subject = input("Enter subject: ")
+            try:
+                grade = float(input("Enter grade: "))
+                if 0 <= grade <= 100:
+                    manager.add_grade(subject, grade)
+                else:
+                    print("Grade must be between 0 and 100.")
+            except ValueError:
+                print("Invalid input. Please enter a numeric value.")
+
+        elif choice == '2':
+            manager.display_summary()
+
+        elif choice == '3':
+            print("Exiting program. Goodbye!")
+            break
+
+        else:
+            print("Invalid choice. Please try again.")
